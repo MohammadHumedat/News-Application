@@ -26,4 +26,14 @@ class HomeCubit extends Cubit<HomeState> {
       emit(TopHeadlinesError(error.toString()));
     }
   }
+
+  Future<void> recommendedTopHeadlines() async {
+    try {
+      final body = TopHeadlineBody(page: 1, pageSize: 15);
+      final response = await _homeService.getHeadLines(body);
+      emit(TopHeadlinesLoaded(response.articles!));
+    } catch (error) {
+      emit(TopHeadlinesError(error.toString()));
+    }
+  }
 }
