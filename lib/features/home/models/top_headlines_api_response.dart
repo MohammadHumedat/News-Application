@@ -71,6 +71,7 @@ class Article {
     this.urlToImage,
     this.publishedAt,
     this.content,
+    
   });
   final Source? source;
   final String? author;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/views/widgets/app_bar_button.dart';
 import 'package:news_app/features/home/cubit/home_cubit.dart';
 
 import 'package:news_app/features/home/view/widgets/HomeTitleBuilder.dart';
@@ -11,10 +12,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocProvider(
       create: (context) {
         final cubit = HomeCubit();
         cubit.fetchTopHeadlines();
+        cubit.recommendedTopHeadlines();
         return cubit;
       },
       child: Scaffold(
@@ -24,14 +27,28 @@ class HomePage extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.black,
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
+          leading: AppBarButton(
+            iconNeeded: Icons.menu,
+            onTap: () {
+              scaffoldKey.currentState?.openDrawer();
             },
           ),
+          actions: [
+            AppBarButton(
+              iconNeeded: Icons.search,
+              onTap: () {
+                // Implement search functionality
+              },
+            ),
+            AppBarButton(
+              iconNeeded: Icons.notifications,
+              onTap: () {
+                // Implement notification functionality
+              },
+            ),
+          ],
         ),
-
+        key: scaffoldKey,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
