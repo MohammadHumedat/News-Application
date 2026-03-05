@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocProvider(
       create: (context) {
         final cubit = HomeCubit();
@@ -21,6 +21,7 @@ class HomePage extends StatelessWidget {
         return cubit;
       },
       child: Scaffold(
+        drawer: const Drawer(child: Center(child: Text('Drawer content here'))),
         appBar: AppBar(
           title: const Text('News App'),
           centerTitle: true,
