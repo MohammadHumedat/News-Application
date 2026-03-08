@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/utils/route/app_routes.dart';
 import 'package:news_app/core/views/widgets/app_bar_button.dart';
 import 'package:news_app/features/home/cubit/home_cubit.dart';
 
@@ -38,7 +39,7 @@ class HomePage extends StatelessWidget {
             AppBarButton(
               iconNeeded: Icons.search,
               onTap: () {
-                // Implement search functionality
+                Navigator.pushNamed(context, AppRoutes.searchPage);
               },
             ),
             AppBarButton(

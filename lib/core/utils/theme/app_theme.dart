@@ -11,5 +11,10 @@ class AppTheme {
       brightness: Brightness.dark,
     ),
     useMaterial3: true,
+
+    inputDecorationTheme: const InputDecorationTheme(
+      border: OutlineInputBorder(),
+      iconColor: Colors.white,
+    ),
   );
 }

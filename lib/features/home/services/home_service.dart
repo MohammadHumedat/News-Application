@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:news_app/core/utils/constants/app_constants.dart';
 import 'package:news_app/features/home/models/top_headline_body.dart';
-import 'package:news_app/features/home/models/top_headlines_api_response.dart';
+import 'package:news_app/core/models/news_api_response.dart';
 
 class HomeService {
   final aDio = Dio();
-  Future<TopHeadlinesApiResponse> getHeadLines(TopHeadlineBody body) async {
+  Future<NewsApiResponse> getHeadLines(TopHeadlineBody body) async {
     try {
       final header = {'Authorization': 'Bearer ${AppConstants.apiKey}'};
       aDio.options.baseUrl = AppConstants.baseUrl;
@@ -15,7 +15,7 @@ class HomeService {
         options: Options(headers: header),
       );
       if (response.statusCode == 200) {
-        return TopHeadlinesApiResponse.fromMap(response.data);
+        return NewsApiResponse.fromMap(response.data);
       } else {
         throw Exception('Failed to load top headlines');
       }

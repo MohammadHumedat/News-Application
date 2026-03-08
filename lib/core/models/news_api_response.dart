@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class TopHeadlinesApiResponse {
+class NewsApiResponse {
   // this model is used to parse the response from the api, it contains the status of the response, the total number of results and a list of articles
-  TopHeadlinesApiResponse({
+  NewsApiResponse({
     required this.status,
     required this.totalResults,
     this.articles,
@@ -13,12 +13,12 @@ class TopHeadlinesApiResponse {
   final int? totalResults;
   final List<Article>? articles;
 
-  TopHeadlinesApiResponse copyWith({
+  NewsApiResponse copyWith({
     String? status,
     int? totalResults,
     List<Article>? articles,
   }) {
-    return TopHeadlinesApiResponse(
+    return NewsApiResponse(
       status: status ?? this.status,
       totalResults: totalResults ?? this.totalResults,
       articles: articles ?? this.articles,
@@ -33,8 +33,8 @@ class TopHeadlinesApiResponse {
     };
   }
 
-  factory TopHeadlinesApiResponse.fromMap(Map<String, dynamic> map) {
-    return TopHeadlinesApiResponse(
+  factory NewsApiResponse.fromMap(Map<String, dynamic> map) {
+    return NewsApiResponse(
       status: map['status'] != null ? map['status'] as String : null,
       totalResults: map['totalResults'] != null
           ? map['totalResults'] as int
@@ -51,10 +51,8 @@ class TopHeadlinesApiResponse {
 
   String toJson() => json.encode(toMap());
 
-  factory TopHeadlinesApiResponse.fromJson(String source) =>
-      TopHeadlinesApiResponse.fromMap(
-        json.decode(source) as Map<String, dynamic>,
-      );
+  factory NewsApiResponse.fromJson(String source) =>
+      NewsApiResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() =>
@@ -71,7 +69,6 @@ class Article {
     this.urlToImage,
     this.publishedAt,
     this.content,
-    
   });
   final Source? source;
   final String? author;
