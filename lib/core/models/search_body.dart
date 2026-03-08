@@ -2,12 +2,7 @@
 import 'dart:convert';
 
 class SearchBody {
-  SearchBody({
-    required this.query,
-     this.searchIn,
-     this.pageSize,
-     this.page,
-  });
+  SearchBody({required this.query, this.searchIn, this.pageSize, this.page});
   final String query;
   final String? searchIn;
   final int? pageSize;
@@ -28,12 +23,13 @@ class SearchBody {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'query': query,
-      'searchIn': searchIn,
-      'pageSize': pageSize,
-      'page': page,
-    };
+    final map = <String, dynamic>{'q': query};
+
+    if (searchIn != null) map['searchIn'] = searchIn;
+    if (pageSize != null) map['pageSize'] = pageSize;
+    if (page != null) map['page'] = page;
+
+    return map;
   }
 
   factory SearchBody.fromMap(Map<String, dynamic> map) {
