@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/utils/theme/app_colors.dart';
 
 class BookmarkNews extends StatelessWidget {
   const BookmarkNews({
@@ -20,7 +21,7 @@ class BookmarkNews extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             // ignore: deprecated_member_use
-            color: Colors.grey.withOpacity(0.5),
+            color: AppColors.primaryColor.withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 5,
             offset: const Offset(0, 3),

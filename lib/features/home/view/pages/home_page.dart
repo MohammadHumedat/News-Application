@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/utils/route/app_routes.dart';
+import 'package:news_app/core/views/pages/drawer_page.dart';
 import 'package:news_app/core/views/widgets/app_bar_button.dart';
 import 'package:news_app/features/home/cubit/home_cubit.dart';
 
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
         return cubit;
       },
       child: Scaffold(
-        drawer: const Drawer(child: Center(child: Text('Drawer content here'))),
+        drawer: const DrawerPage(),
         appBar: AppBar(
           title: const Text('News App'),
           centerTitle: true,
