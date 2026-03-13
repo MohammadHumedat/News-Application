@@ -283,97 +283,97 @@ class _HeroImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => BookmarkCubit(),
-      child: SizedBox(
-        height: 300,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            article.urlToImage?.isNotEmpty == true
-                ? CachedNetworkImage(
-                    imageUrl: article.urlToImage!,
-                    fit: BoxFit.cover,
-                    httpHeaders: const {'Referer': 'https://newsapi.org/'},
-                    placeholder: (_, __) =>
-                        Container(color: AppColors.darkSurface),
-                    errorWidget: (_, __, ___) => Container(
-                      color: AppColors.darkSurface,
-                      child: const Icon(
-                        Icons.image_not_supported_rounded,
-                        color: Colors.white38,
-                        size: 48,
-                      ),
+    return SizedBox(
+      height: 300,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          article.urlToImage?.isNotEmpty == true
+              ? CachedNetworkImage(
+                  imageUrl: article.urlToImage!,
+                  fit: BoxFit.cover,
+                  httpHeaders: const {'Referer': 'https://newsapi.org/'},
+                  placeholder: (_, __) =>
+                      Container(color: AppColors.darkSurface),
+                  errorWidget: (_, __, ___) => Container(
+                    color: AppColors.darkSurface,
+                    child: const Icon(
+                      Icons.image_not_supported_rounded,
+                      color: Colors.white38,
+                      size: 48,
                     ),
-                  )
-                : Container(color: AppColors.darkSurface),
+                  ),
+                )
+              : Container(color: AppColors.darkSurface),
 
-            const DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0x88000000),
-                    Colors.transparent,
-                    Color(0xBB000000),
-                  ],
-                  stops: [0.0, 0.4, 1.0],
-                ),
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0x88000000),
+                  Colors.transparent,
+                  Color(0xBB000000),
+                ],
+                stops: [0.0, 0.4, 1.0],
               ),
             ),
+          ),
 
-            BlocBuilder<BookmarkCubit, BookmarkState>(
-              builder: (context, state) {
-                if (state is BookmarkLoaded) {
-                  final isBookmarked = state.bookmarkedArticles.any(
-                    (a) => a.url == article.url,
-                  );
+          Positioned(
+            top: 8,
+            right: 8,
+            child: SafeArea(
+              bottom: false,
+              child: BlocBuilder<BookmarkCubit, BookmarkState>(
+                builder: (context, state) {
+                  if (state is BookmarkLoaded) {
+                    final isBookmarked = state.bookmarkedArticles.any(
+                      (a) => a.url == article.url,
+                    );
+                    return BookmarkNews(
+                      isBookmarked: isBookmarked,
+                      onBookmarkToggle: () =>
+                          () => context.read<BookmarkCubit>().toggleBookmark(
+                            article,
+                          ),
+                    );
+                  }
                   return BookmarkNews(
-                    isBookmarked: isBookmarked,
-                    onBookmarkToggle: () {
-                      final cubit = context.read<BookmarkCubit>();
-                      if (isBookmarked) {
-                        cubit.toggleBookmark(article);
-                      } else {
-                        cubit.toggleBookmark(article);
-                      }
-                    },
+                    isBookmarked: false,
+                    onBookmarkToggle: () {},
                   );
-                }
-                return BookmarkNews(
-                  isBookmarked: false,
-                  onBookmarkToggle: () {},
-                );
-              },
+                },
+              ),
             ),
+          ),
 
-            Positioned(
-              top: 0,
-              left: 0,
-              child: SafeArea(
-                bottom: false,
-                child: GestureDetector(
-                  onTap: onBack,
-                  child: Container(
-                    margin: const EdgeInsets.all(12),
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.4),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.arrow_back_rounded,
-                      color: Colors.white,
-                      size: 20,
-                    ),
+          Positioned(
+            top: 0,
+            left: 0,
+            child: SafeArea(
+              bottom: false,
+              child: GestureDetector(
+                onTap: onBack,
+                child: Container(
+                  margin: const EdgeInsets.all(12),
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.4),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.arrow_back_rounded,
+                    color: Colors.white,
+                    size: 20,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
