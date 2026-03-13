@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/utils/theme/app_colors.dart';
 import 'package:news_app/core/models/news_api_response.dart';
+import 'package:news_app/core/views/widgets/bookmark_news.dart';
+import 'package:news_app/features/bookmark/cubit/bookmark_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArticleDetailsPage extends StatelessWidget {
@@ -14,8 +17,18 @@ class ArticleDetailsPage extends StatelessWidget {
     try {
       final date = DateTime.parse(dateStr).toLocal();
       const months = [
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
       ];
       final hour = date.hour % 12 == 0 ? 12 : date.hour % 12;
       final min = date.minute.toString().padLeft(2, '0');
@@ -47,15 +60,24 @@ class ArticleDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : AppColors.lightBackground;
-    final textPrimary = isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
-    final textSecondary = isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
-    final dividerColor = isDark ? AppColors.darkDivider : AppColors.lightDivider;
+    final bgColor = isDark
+        ? AppColors.darkBackground
+        : AppColors.lightBackground;
+    final textPrimary = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.lightTextPrimary;
+    final textSecondary = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.lightTextSecondary;
+    final dividerColor = isDark
+        ? AppColors.darkDivider
+        : AppColors.lightDivider;
     final cardBg = isDark ? AppColors.darkCardBg : AppColors.lightCardBg;
     final cleanContent = _cleanContent(article.content);
 
     return Scaffold(
       backgroundColor: bgColor,
+
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +96,11 @@ class ArticleDetailsPage extends StatelessWidget {
                       if (article.source?.name != null)
                         _SourceChip(name: article.source!.name!),
                       const Spacer(),
-                      Icon(Icons.schedule_rounded, size: 13, color: textSecondary),
+                      Icon(
+                        Icons.schedule_rounded,
+                        size: 13,
+                        color: textSecondary,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         '${_estimateReadTime(article.content ?? article.description ?? '')} min read',
@@ -85,7 +111,7 @@ class ArticleDetailsPage extends StatelessWidget {
 
                   const SizedBox(height: 14),
 
-                  // Title 
+                  // Title
                   Text(
                     article.title ?? '',
                     style: TextStyle(
@@ -99,12 +125,14 @@ class ArticleDetailsPage extends StatelessWidget {
 
                   const SizedBox(height: 14),
 
-                  // Author + Date 
+                  // Author + Date
                   Row(
                     children: [
                       CircleAvatar(
                         radius: 16,
-                        backgroundColor: AppColors.accent.withValues(alpha: 0.15),
+                        backgroundColor: AppColors.accent.withValues(
+                          alpha: 0.15,
+                        ),
                         child: Text(
                           article.author?.isNotEmpty == true
                               ? article.author![0].toUpperCase()
@@ -148,7 +176,7 @@ class ArticleDetailsPage extends StatelessWidget {
                   Divider(color: dividerColor, height: 1),
                   const SizedBox(height: 20),
 
-                  // Description 
+                  // Description
                   if (article.description?.isNotEmpty == true)
                     Text(
                       article.description!,
@@ -185,14 +213,20 @@ class ArticleDetailsPage extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.info_outline_rounded,
-                              size: 16, color: AppColors.accent),
+                          const Icon(
+                            Icons.info_outline_rounded,
+                            size: 16,
+                            color: AppColors.accent,
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               'Article preview is limited. Read the full story below.',
                               style: TextStyle(
-                                  color: textSecondary, fontSize: 12, height: 1.4),
+                                color: textSecondary,
+                                fontSize: 12,
+                                height: 1.4,
+                              ),
                             ),
                           ),
                         ],
@@ -220,7 +254,10 @@ class ArticleDetailsPage extends StatelessWidget {
                         icon: const Icon(Icons.open_in_new_rounded, size: 16),
                         label: const Text(
                           'Read Full Article',
-                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                     ),
@@ -246,58 +283,97 @@ class _HeroImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          article.urlToImage?.isNotEmpty == true
-              ? CachedNetworkImage(
-                  imageUrl: article.urlToImage!,
-                  fit: BoxFit.cover,
-                  httpHeaders: const {'Referer': 'https://newsapi.org/'},
-                  placeholder: (_, __) => Container(color: AppColors.darkSurface),
-                  errorWidget: (_, __, ___) => Container(
-                    color: AppColors.darkSurface,
-                    child: const Icon(Icons.image_not_supported_rounded,
-                        color: Colors.white38, size: 48),
-                  ),
-                )
-              : Container(color: AppColors.darkSurface),
+    return BlocProvider(
+      create: (context) => BookmarkCubit(),
+      child: SizedBox(
+        height: 300,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            article.urlToImage?.isNotEmpty == true
+                ? CachedNetworkImage(
+                    imageUrl: article.urlToImage!,
+                    fit: BoxFit.cover,
+                    httpHeaders: const {'Referer': 'https://newsapi.org/'},
+                    placeholder: (_, __) =>
+                        Container(color: AppColors.darkSurface),
+                    errorWidget: (_, __, ___) => Container(
+                      color: AppColors.darkSurface,
+                      child: const Icon(
+                        Icons.image_not_supported_rounded,
+                        color: Colors.white38,
+                        size: 48,
+                      ),
+                    ),
+                  )
+                : Container(color: AppColors.darkSurface),
 
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0x88000000), Colors.transparent, Color(0xBB000000)],
-                stops: [0.0, 0.4, 1.0],
-              ),
-            ),
-          ),
-
-          Positioned(
-            top: 0,
-            left: 0,
-            child: SafeArea(
-              bottom: false,
-              child: GestureDetector(
-                onTap: onBack,
-                child: Container(
-                  margin: const EdgeInsets.all(12),
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.4),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(Icons.arrow_back_rounded,
-                      color: Colors.white, size: 20),
+            const DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0x88000000),
+                    Colors.transparent,
+                    Color(0xBB000000),
+                  ],
+                  stops: [0.0, 0.4, 1.0],
                 ),
               ),
             ),
-          ),
-        ],
+
+            BlocBuilder<BookmarkCubit, BookmarkState>(
+              builder: (context, state) {
+                if (state is BookmarkLoaded) {
+                  final isBookmarked = state.bookmarkedArticles.any(
+                    (a) => a.url == article.url,
+                  );
+                  return BookmarkNews(
+                    isBookmarked: isBookmarked,
+                    onBookmarkToggle: () {
+                      final cubit = context.read<BookmarkCubit>();
+                      if (isBookmarked) {
+                        cubit.toggleBookmark(article);
+                      } else {
+                        cubit.toggleBookmark(article);
+                      }
+                    },
+                  );
+                }
+                return BookmarkNews(
+                  isBookmarked: false,
+                  onBookmarkToggle: () {},
+                );
+              },
+            ),
+
+            Positioned(
+              top: 0,
+              left: 0,
+              child: SafeArea(
+                bottom: false,
+                child: GestureDetector(
+                  onTap: onBack,
+                  child: Container(
+                    margin: const EdgeInsets.all(12),
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.4),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -323,7 +399,9 @@ class _SourceChip extends StatelessWidget {
             width: 6,
             height: 6,
             decoration: const BoxDecoration(
-                color: AppColors.accent, shape: BoxShape.circle),
+              color: AppColors.accent,
+              shape: BoxShape.circle,
+            ),
           ),
           const SizedBox(width: 6),
           Text(
