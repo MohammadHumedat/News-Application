@@ -335,9 +335,7 @@ class _HeroImage extends StatelessWidget {
                     return BookmarkNews(
                       isBookmarked: isBookmarked,
                       onBookmarkToggle: () =>
-                          () => context.read<BookmarkCubit>().toggleBookmark(
-                            article,
-                          ),
+                          context.read<BookmarkCubit>().toggleBookmark(article),
                     );
                   }
                   return BookmarkNews(
