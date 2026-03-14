@@ -8,6 +8,7 @@ import 'package:news_app/features/home/view/pages/article_details_page.dart';
 import 'package:news_app/features/home/view/pages/home_page.dart';
 import 'package:news_app/features/search/cubit/search_cubit.dart';
 import 'package:news_app/features/search/views/pages/search_page.dart';
+import 'package:news_app/features/splash/views/splash_page.dart';
 
 class AppRouter {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -28,6 +29,11 @@ class AppRouter {
             create: (context) => SearchCubit(),
             child: const SearchPage(),
           ),
+          settings: settings,
+        );
+      case AppRoutes.splashPage:
+        return CupertinoPageRoute(
+          builder: (_) => const SplashPage(),
           settings: settings,
         );
       case AppRoutes.articleDetailsPage:
