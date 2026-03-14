@@ -36,7 +36,7 @@ class RecommendationsListView extends StatelessWidget {
                         width: 110,
                         height: 110,
                         fit: BoxFit.cover,
-    
+
                         memCacheHeight: 110,
                         memCacheWidth: 110,
                         httpHeaders: const {
@@ -58,7 +58,7 @@ class RecommendationsListView extends StatelessWidget {
                         ),
                       ),
                     ),
-    
+
                     Positioned(
                       top: 6,
                       right: 6,
@@ -68,7 +68,7 @@ class RecommendationsListView extends StatelessWidget {
                         buildWhen: (previous, current) =>
                             current is BookmarkLoaded ||
                             current is BookmarkError,
-    
+
                         builder: (context, state) {
                           if (state is BookmarkLoaded) {
                             final isBookmarked = state.bookmarkedArticles.any(
