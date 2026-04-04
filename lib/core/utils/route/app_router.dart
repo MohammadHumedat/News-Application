@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/models/article_model.dart';
 import 'package:news_app/core/utils/route/app_routes.dart';
-import 'package:news_app/core/models/news_api_response.dart';
+
 import 'package:news_app/features/bookmark/views/pages/bookmarks_page.dart';
 import 'package:news_app/features/home/view/pages/article_details_page.dart';
 import 'package:news_app/features/home/view/pages/home_page.dart';

@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
                                 x.urlToImage != null &&
                                 x.urlToImage!.isNotEmpty,
                           )
-                          .take(10)
+                          .take(15)
                           .toList();
                       return Column(
                         // CarouselSlider widget

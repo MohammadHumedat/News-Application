@@ -6,4 +6,7 @@ class AppConstants {
   static const String baseUrl = 'https://newsapi.org';
   static const String topHeadlinesEndpoint = '/v2/top-headlines';
   static const String everythingEndpoint = '/v2/everything';
+
+  // Hive
+  static const String localDatabaseBoxName = 'local_database';
 }

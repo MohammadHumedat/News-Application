@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:news_app/core/models/article_model.dart';
 import 'package:news_app/core/models/news_api_response.dart';
 
 void main() {
