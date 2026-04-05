@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/Network/dio_client.dart';
 import 'package:news_app/core/utils/route/app_routes.dart';
 import 'package:news_app/core/views/pages/drawer_page.dart';
 import 'package:news_app/core/views/widgets/app_bar_button.dart';
 import 'package:news_app/features/home/cubit/home_cubit.dart';
+import 'package:news_app/features/home/repo/home_repository.dart';
+import 'package:news_app/features/home/services/home_service.dart';
 
 import 'package:news_app/features/home/view/widgets/HomeTitleBuilder.dart';
 import 'package:news_app/features/home/view/widgets/home_carousel_slider.dart';
@@ -17,7 +20,10 @@ class HomePage extends StatelessWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocProvider(
       create: (context) {
-        final cubit = HomeCubit();
+        final dio = DioClient.dio;
+        final service = HomeService(dio);
+        final repo = HomeRepository(service);
+        final cubit = HomeCubit(repo);
         cubit.fetchTopHeadlines();
         cubit.recommendedTopHeadlines();
         return cubit;

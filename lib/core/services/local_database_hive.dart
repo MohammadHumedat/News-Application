@@ -5,6 +5,7 @@ import 'package:news_app/core/utils/constants/app_constants.dart';
 
 class LocalDataBaseHive {
   static Future<void> initHive() async {
+    // Initialize Hive and register adapters to ensure that Hive can serialize and deserialize the data correctly.
     Hive.initFlutter();
     Hive.registerAdapter(ArticleAdapter());
     Hive.registerAdapter(SourceAdapter());

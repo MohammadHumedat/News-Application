@@ -4,15 +4,14 @@ import 'package:news_app/features/home/models/top_headline_body.dart';
 import 'package:news_app/core/models/news_api_response.dart';
 
 class HomeService {
-  final aDio = Dio();
+  HomeService(this.dio);
+  final Dio dio;
+
   Future<NewsApiResponse> getHeadLines(TopHeadlineBody body) async {
     try {
-      final header = {'Authorization': 'Bearer ${AppConstants.apiKey}'};
-      aDio.options.baseUrl = AppConstants.baseUrl;
-      final response = await aDio.get(
+      final response = await dio.get(
         AppConstants.topHeadlinesEndpoint,
         queryParameters: body.toMap(),
-        options: Options(headers: header),
       );
       if (response.statusCode == 200) {
         return NewsApiResponse.fromMap(response.data);

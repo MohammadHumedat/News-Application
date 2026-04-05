@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/Network/dio_client.dart';
 import 'package:news_app/core/models/article_model.dart';
 import 'package:news_app/core/utils/route/app_routes.dart';
 
@@ -8,6 +9,8 @@ import 'package:news_app/features/bookmark/views/pages/bookmarks_page.dart';
 import 'package:news_app/features/home/view/pages/article_details_page.dart';
 import 'package:news_app/features/home/view/pages/home_page.dart';
 import 'package:news_app/features/search/cubit/search_cubit.dart';
+import 'package:news_app/features/search/repo/search_repo.dart';
+import 'package:news_app/features/search/services/search_service.dart';
 import 'package:news_app/features/search/views/pages/search_page.dart';
 import 'package:news_app/features/splash/views/splash_page.dart';
 
@@ -27,7 +30,12 @@ class AppRouter {
       case AppRoutes.searchPage:
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => SearchCubit(),
+            create: (context) {
+              final dio = DioClient.dio;
+              final searchService = SearchService(dio);
+              final searchRepo = SearchRepository(searchService);
+              return SearchCubit(searchRepo);
+            },
             child: const SearchPage(),
           ),
           settings: settings,

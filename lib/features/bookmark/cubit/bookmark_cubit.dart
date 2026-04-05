@@ -7,7 +7,9 @@ part 'bookmark_state.dart';
 
 class BookmarkCubit extends Cubit<BookmarkState> {
   BookmarkCubit() : super(BookmarkInitial());
+  // Hive instance to manage local storage of bookmarks
   final LocalDataBaseHive localDataBaseHive = LocalDataBaseHive();
+
   Future<void> loadBookmarks() async {
     emit(BookmarkLoading());
     try {

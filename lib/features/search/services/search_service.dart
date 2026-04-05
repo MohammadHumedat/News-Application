@@ -4,17 +4,14 @@ import 'package:news_app/core/models/search_body.dart';
 import 'package:news_app/core/utils/constants/app_constants.dart';
 
 class SearchService {
-  final aDio = Dio();
-
+  SearchService(this.dio);
+  final Dio dio;
   Future<NewsApiResponse> search(SearchBody body) async {
     try {
-      aDio.options.baseUrl = AppConstants.baseUrl;
-      final headers = {'Authorization': 'Bearer ${AppConstants.apiKey}'};
-      final response = await aDio.get(
+      final response = await dio.get(
         AppConstants.everythingEndpoint,
 
         queryParameters: body.toMap(),
-        options: Options(headers: headers),
       );
       if (response.statusCode == 200) {
         return NewsApiResponse.fromMap(response.data);
